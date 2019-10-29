@@ -7,9 +7,9 @@ const DoneTodo = props => {
   return (
     <li key={props.item.id} className="todoList__item todoList__item--done">
       <span className="item__text">
-        {props.item.discription}, Wykonano: {props.item.doneDate}
+        {props.item.discription}, done: {props.item.doneDate}
       </span>
-      <button onClick={() => deleteTodo(props.item)}>Usuń</button>
+      <button onClick={() => deleteTodo(props.item)}>Delete</button>
     </li>
   );
 };

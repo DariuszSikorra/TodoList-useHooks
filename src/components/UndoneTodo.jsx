@@ -14,10 +14,10 @@ const UndoneTodo = props => {
         className="item__text"
         style={props.item.important ? styleImportant : undefined}
       >
-        {props.item.discription}, wykonać do dnia: {props.item.date}{" "}
+        {props.item.discription}, perform until: {props.item.date}{" "}
       </span>
-      <button onClick={() => makeDoneTodo(props.item)}>Zrobione!</button>{" "}
-      <button onClick={() => deleteTodo(props.item)}>Usuń</button>
+      <button onClick={() => makeDoneTodo(props.item)}>Done!</button>{" "}
+      <button onClick={() => deleteTodo(props.item)}>Delete</button>
     </li>
   );
 };

@@ -16,13 +16,13 @@ const TodoForm = () => {
     <AppContext.Consumer>
       {() => (
         <div className="app__todoForm">
-          <h2>Stwórz nowe zadanie: </h2>
+          <h2>Make new todo: </h2>
           <form onSubmit={handleSubmit}>
-            <span>Podaj opis zadania: </span>
+            <span>Fill out the task description: </span>
             <br />
             <input
               type="text"
-              placeholder="Tu wpisz tekst..."
+              placeholder="Enter text here ..."
               value={appState.todoForm.discription}
               min="8"
               required
@@ -34,7 +34,7 @@ const TodoForm = () => {
               }
             />
             <br />
-            <span>Data deadline'u: </span>
+            <span>Deadline date: </span>
             <br />
             <input
               type="date"
@@ -47,7 +47,7 @@ const TodoForm = () => {
               }
             />
             <br />
-            <span>Priorytet: </span>
+            <span>Priority: </span>
             <input
               type="checkbox"
               checked={appState.todoForm.important}
@@ -59,7 +59,7 @@ const TodoForm = () => {
               }
             />
             <br />
-            <button type="submit">Dodaj</button>
+            <button type="submit">Add</button>
           </form>
         </div>
       )}

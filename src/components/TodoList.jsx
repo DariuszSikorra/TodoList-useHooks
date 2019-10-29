@@ -12,13 +12,13 @@ const TodoList = () => {
     <AppContext.Consumer>
       {() => (
         <div className="app__todoList">
-          <h2>Zadania do zrobienia:</h2>
+          <h2>Tasks to do:</h2>
           <ul>
             {undoneTodo.map( item =>
               <UndoneTodo item={item} />
               )}
           </ul>
-          <h2>Zrobione zadania:</h2>
+          <h2>Tasks completed:</h2>
           <ul>
             {doneTodo.map(
               item =>  <DoneTodo item={item} />
