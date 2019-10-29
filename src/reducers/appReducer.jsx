@@ -5,6 +5,8 @@ import { today, initialTodoForm } from "../variables/variables";
 
 const appReducer = (state, action) => {
   switch (action.type) {
+    case "RESET":
+      return action.payload;
     case "ADD_DISCRIPTION":
       return {
         ...state,
@@ -12,10 +14,14 @@ const appReducer = (state, action) => {
       };
 
     case "ADD_DATE":
-      return {
-        ...state,
-        todoForm: { ...state.todoForm, date: action.payload }
-      };
+      if (action.payload >= today) {
+        return {
+          ...state,
+          todoForm: { ...state.todoForm, date: action.payload }
+        };
+      } else {
+        return state;
+      }
     case "ADD_IMPORTANT":
       return {
         ...state,
@@ -24,23 +30,31 @@ const appReducer = (state, action) => {
     case "ADD_TODO":
       return {
         ...state,
-        todoForm: { ...initialTodoForm, id: state.todoList.length + 1 },
-        todoList: [...state.todoList, action.payload]
+        todoForm: { ...initialTodoForm, id: state.todoForm.id + 1 },
+        todoList: [...state.todoList, action.payload].sort(
+          (a, b) => b.date - a.date
+        )
       };
+
     case "DELETE_TODO":
-      let deletedTodo = state.todoList.filter(x => x.id !== action.item.id);
       return {
         ...state,
-        todoList: deletedTodo
+        todoList: state.todoList.filter(x => x.id !== action.item.id)
       };
     case "MAKEDONE_TODO":
-      let doneTodoDelete = state.todoList.filter(x => x.id !== action.item.id);
-      let doneTodoConcat = state.todoList.filter(x => x.id === action.item.id);
       return {
         ...state,
-        todoList: doneTodoDelete,
-        doneTodos: state.doneTodos.concat(doneTodoConcat),
-        doneTodoConcat: {...doneTodoConcat, doneDate: today}
+        todoList: state.todoList.map(x =>
+          x.id === action.item.id
+            ? {
+                ...x,
+                done: true,
+                doneDate: today
+              }
+            : {
+                ...x
+              }
+        )
       };
     default:
       return state;

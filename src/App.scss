@@ -1,0 +1,29 @@
+.App {
+  margin: auto;
+  max-width: 600px;
+  overflow: hidden;
+  .app__todoForm {
+    padding: 0 0 10% 0;
+  }
+  .app__todoList {
+    ul {
+      position: relative;
+      padding: 0;
+      .todoList__item {
+        margin: 1% 0;
+        display: flex;
+        background: rgba(255, 255, 255, 0.1);
+        .item__text {
+             margin-right: auto;
+        }
+      }
+    }
+  }
+}
+
+button {
+  height: calc(10px + 2vmin);
+  margin: auto 0;
+  border-radius: calc(10px);
+  background-color: green;
+}

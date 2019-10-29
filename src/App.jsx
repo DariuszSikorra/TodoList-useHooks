@@ -1,20 +1,32 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useRef } from "react";
 import appReducer from "./reducers/appReducer";
 import TodoForm from "./components/TodoForm";
-import "./App.css";
+import TodoList from "./components/TodoList";
+import "./App.scss";
 
 import { initialTodoForm } from "./variables/variables";
+
+export const AppContext = React.createContext();
 
 const App = () => {
   const [appState, dispatch] = useReducer(appReducer, {
     todoForm: initialTodoForm,
-    todoList: [],
-    doneTodos: []
+    todoList: []
+  });
+
+  const didRun = useRef(false);
+
+  useEffect(() => {
+    if (!didRun.current) {
+      const raw = localStorage.getItem("data");
+      dispatch({ type: "RESET", payload: JSON.parse(raw) });
+      didRun.current = true;
+    }
   });
 
   useEffect(() => {
-    console.log(appState.doneTodos);
-  });
+    localStorage.setItem("data", JSON.stringify(appState));
+  }, [appState]);
 
   const deleteTodo = item => {
     dispatch({ type: "DELETE_TODO", item });
@@ -25,34 +37,14 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <div>
-        <span>TodoForm: </span>
-        <TodoForm dispatch={dispatch} state={appState} />
+    <AppContext.Provider
+      value={{ appState, dispatch, deleteTodo, makeDoneTodo }}
+    >
+      <div className="App">
+        <TodoForm />
+        <TodoList />
       </div>
-      <div>
-        <span>Zadania do zrobienia:</span>
-        <ul>
-          {appState.todoList.map(item => (
-            <li key={item.id}>
-              <span>
-                {item.id + 1}. {item.discription}, wykonać do dnia: {item.date}{" "}
-              </span>
-              <button onClick={() => makeDoneTodo(item)}>Zrobione!</button>{" "}
-              <button onClick={() => deleteTodo(item)}>Usuń</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <span>Zrobione zadań:</span>
-        <ul>
-          {appState.doneTodos.map(item => (
-            <li key={item.id}>{item.id + 1}, {item.discription}, Wykonano: {item.doneDate}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </AppContext.Provider>
   );
 };
 
